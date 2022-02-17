@@ -12,10 +12,65 @@ const modalClose = document.querySelector('.modal__close')
 
 const modalBox = document.querySelector('.modal__box')
 
+modalClose.addEventListener('click', () => {
+    modal.classList.remove('active__modal')
+})
+
 function fetchModal (id) {
     fetch('data.json')
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => {
+            modalBox.innerHTML = `
+                <h2 class="modal__box-title"> Регион: ${data[id - 1 ].region} </h2>
+                <div class="slider"> 
+                    <div class="slider__line">
+                        <img src="${data[id - 1].img}" alt="" class ="modal__box-img">
+                        <img src="${data[id - 1].img2}" alt="" class ="modal__box-img"> 
+                        <img src="${data[id - 1].img3}" alt="" class ="modal__box-img"> 
+                    </div>
+                </div>
+                <p class="modal__box-text"> ${data[id - 1].info}  </p> 
+            `
+
+            const slider = document.querySelector('.slider')
+            const sliderLine = document.querySelector('.slider__line')
+            const img = document.querySelectorAll('.modal__box-img')
+
+            let count = 0
+            let width;
+            let autoplay = true
+
+            function init () {
+                width = slider.offsetWidth
+                sliderLine.style.width = width * img.length + 'px'
+                img.forEach(item => {
+                    item.style.width = width + 'px'
+                    item.style.height = 'auto'
+                })
+                rollSlider()
+            }
+            init()
+
+            function rollSlider () {
+                sliderLine.style.transform = `translate(-${count * width}px)`
+            }
+
+            function autoPlayFunc () {
+                if (autoplay) {
+                     setTimeout(() => {
+                         if (count === img.length - 1) {
+                             count = 0
+                        } else {
+                            count++
+                        }
+                        rollSlider()
+
+                             
+                     },1500)
+                }
+            }
+            autoPlayFunc()
+        })
 }
 
 
@@ -90,4 +145,8 @@ function removeActivePath () {
         
     })
     
+}
+
+function removeActiveClose () {
+    modalClose.forEach
 }
