@@ -12,6 +12,13 @@ const modalClose = document.querySelector('.modal__close')
 
 const modalBox = document.querySelector('.modal__box')
 
+const mapMenu = document.querySelector('.map__menu')
+const mapContentInfo = document.querySelector('.map__content-info')
+
+mapMenu.addEventListener('click', () => {
+    mapContentInfo.classList.add('active__side')
+})
+
 modalClose.addEventListener('click', () => {
     modal.classList.remove('active__modal')
 })
@@ -64,7 +71,7 @@ function fetchModal (id) {
                             count++
                         }
                         rollSlider()
-
+                        autoPlayFunc()
                              
                      },1500)
                 }
